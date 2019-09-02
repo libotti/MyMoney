@@ -1,24 +1,27 @@
 import React from 'react'
-import useGet from './useGet'
-import usePost from './usePost'
-import useDelete from './useDelete';
+//import useGet from './useGet'
+//import usePost from './usePost'
+//import useDelete from './useDelete'
+import Rest from './rest'
 
-const url = 'https://libotti-2d781.firebaseio.com/movimentacoes/2019-08.json'
 const url2 = 'http://httpbin.org/ip'
+const baseURL = 'https://libotti-2d781.firebaseio.com/'
+
+const { useGet, usePost, useDelete } = Rest(baseURL)
+
 
 function App() {
-  const data = useGet(url)
+  const data = useGet('movimentacoes/2019-08')
   const data2 = useGet(url2)
-  const [postData, post] = usePost(url)
+  const [postData, post] = usePost('movimentacoes/2019-08')
   const [deleteData, remove] =  useDelete()
-  
 
-  const saveNew = ()  => {
+    const saveNew = ()  => {
     post({ valor: 10, descricao: 'olaaaa'})
   }
 
   const doRemove = () => {
-    remove('https://libotti-2d781.firebaseio.com/movimentacoes/2019-08/-LnmCQUa8vo9vVqCtwl-.json')
+    remove('movimentacoes/2019-08/-Lnm_zmgtLioNG228Cs2')
   }
 
   return (
