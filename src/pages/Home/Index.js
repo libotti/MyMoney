@@ -1,6 +1,6 @@
 import React from 'react'
-import Months from '../elements/Months'
-import AddMonth from '../elements/AddMonth'
+import Months from './Months'
+import AddMonth from './AddMonth'
 
 const Home = () => {
     return (

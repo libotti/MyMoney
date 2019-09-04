@@ -1,5 +1,5 @@
 import React from 'react'
-import Rest from '../rest'
+import Rest from '../../utils/rest'
 import {Link} from 'react-router-dom'
 
 const baseURL = 'https://libotti-2d781.firebaseio.com/'
