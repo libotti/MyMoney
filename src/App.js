@@ -29,12 +29,11 @@ function App() {
   return (
     <div>
       <Header />
-
-      <AddMonth />
-
-      <Months />
-
+      <div className='container'>
+        <AddMonth />
+        <Months />
       </div>
+    </div>
   )
 }
 
