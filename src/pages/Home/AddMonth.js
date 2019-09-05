@@ -1,32 +1,46 @@
-import React from 'react'
+import React, {useState, useRef} from 'react'
+import { Redirect } from 'react-router-dom'
+const minAno = 2019
+const maxAno = 2030
 
 const AddMonth = () => {
+    const refAno = useRef()
+    const refMes = useRef()
+    const [redir, setRedir] = useState('')
+    const anos = []
+    const meses = []
+    for(let i = minAno ; i< maxAno; i++){
+        anos.push(i)
+    }
+    for(let i = 1; i <= 12;i++){
+        meses.push(i)
+    }
+    const zeroPad = num => {
+        if (num < 10){
+            return '0'+num
+        }
+        return num
+    }
+
+    const verMes = () =>{
+        setRedir(refAno.current.value + '-' + refMes.current.value)
+    }
+    if(redir !== ''){
+        return <Redirect to={'/movimentacoes/' + redir} />
+    }
+
     return (
         <React.Fragment>
             <h2>Adicionar mês</h2>
-            <select>
-            <option value='2019'>2019</option>
-            <option value='2020'>2020</option>
+            <select ref={refAno}>
+                { anos.map(ano => <option key={ano} value={ano}>{ano}</option>)}
             </select>
-    
-            <select>
-            <option value='01'>01</option>
-            <option value='02'>02</option>
-            <option value='03'>03</option>
-            <option value='04'>04</option>
-            <option value='05'>05</option>
-            <option value='06'>06</option>
-            <option value='07'>07</option>
-            <option value='08'>08</option>
-            <option value='09'>09</option>
-            <option value='10'>10</option>
-            <option value='11'>11</option>
-            <option value='12'>12</option>
+            <select ref={refMes}>
+                { meses.map(zeroPad).map(mes => <option key={mes} value={mes}>{mes}</option>)}
             </select>
-            <button>Adicionar mês</button>
+            <button onClick={verMes} className='btn btn-success'>Adicionar mês</button>
         </React.Fragment>
     )
 }
 
 export default AddMonth
-
