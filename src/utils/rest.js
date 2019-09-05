@@ -27,46 +27,44 @@ const reducer = (state, action) => {
   const init = baseURL => {
     const useGet = resource => {
         const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
-    
-        useEffect(() => {
+        const carregar = async() => {
           dispatch({ type:'REQUEST'})
-          axios
-            .get(baseURL + resource + '.json')
-            .then(res => {
-              dispatch({type: 'SUCCESS', data: res.data})
-            })
+          const res = await axios.get(baseURL + resource + '.json')
+          dispatch({type: 'SUCCESS', data: res.data})
+        }
+        useEffect(() => {
+          carregar()
         }, [resource])
-        return data;
+        return {
+          ...data,
+          refetch: carregar
+        }
       }
 
-      const usePost = resource => {
-        const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
-
-        const post = async data => {
-            dispatch({ type: 'REQUEST'})
-            const res = await axios.post(baseURL + resource + '.json', data)
-                dispatch({
-                    type: 'SUCCESS',
-                    data: res.data
-                })
-                console.log(res.data)
-        }
-        return [data, post]
+    const usePost = resource => {
+      const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
+      const post = async data => {
+          dispatch({ type: 'REQUEST'})
+          const res = await axios.post(baseURL + resource + '.json', data)
+          dispatch({
+              type: 'SUCCESS',
+              data: res.data
+          })
+          console.log(res.data)
+      }
+      return [data, post]
     }
 
     const useDelete = () => {
-        const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
-        const remove = resource => {
-            dispatch({ type: 'REQUEST'})
-            axios
-                .delete(baseURL + resource + '.json')
-                .then(() => {
-                    dispatch({
-                        type: 'SUCCESS'
-                    })
-                })
-        }
-        return [data, remove]
+      const [data, dispatch] = useReducer(reducer, INITIAL_STATE)
+      const remove = async(resource) => {
+          dispatch({ type: 'REQUEST'})
+          await axios.delete(baseURL + resource + '.json')
+            dispatch({
+            type: 'SUCCESS'
+          })
+      }
+      return [data, remove]
     }
 
       return { 
